@@ -1,0 +1,29 @@
+{
+  "name": "desarrollo-web-y-m-vil",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "star": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sebasepulvedarios/Desarrollo-Web-y-M-vil.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/sebasepulvedarios/Desarrollo-Web-y-M-vil/issues"
+  },
+  "homepage": "https://github.com/sebasepulvedarios/Desarrollo-Web-y-M-vil#readme",
+  "dependencies": {
+    "apollo-server-express": "^3.13.0",
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "graphql": "15.10.1",
+    "mongoose": "^9.9.5"
+  }
+}
