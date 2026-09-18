@@ -1,0 +1,272 @@
+/* 1. Importar la tipografía redondeada */
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap');
+
+/* 2. Definir la paleta de colores (Variables) */
+:root {
+    --color-azul: #4A90E2;     /* Color principal */
+    --color-amarillo: #F5D042; /* Color secundario */
+    --color-naranjo: #F5A623;  /* Para botones */
+    --color-fondo: #F9F9F9;    /* Gris muy claro para el fondo */
+    --color-texto: #333333;    /* Gris oscuro para leer bien */
+}
+
+/* 3. Selector de Etiqueta (Tag): Aplicar estilos a todo el cuerpo */
+body {
+    font-family: 'Quicksand', sans-serif;
+    background-color: var(--color-fondo);
+    color: var(--color-texto);
+    margin: 0;
+    padding: 0;
+}
+
+/* 4. Estilos para la barra superior (Header) */
+header {
+    background-color: var(--color-azul); /* Pintamos el fondo con el azul principal */
+    color: white; /* Letra blanca para que resalte sobre el azul */
+    display: flex; /* Esto es MAGIA: pone los elementos uno al lado del otro */
+    justify-content: space-between; /* Empuja el logo a la izquierda y el menú a la derecha */
+    align-items: center; /* Centra todo verticalmente */
+    padding: 15px 40px; /* Da un poco de aire (15px arriba/abajo, 40px a los lados) */
+    position: relative;
+}
+
+#logo {
+    width: 180px; /* Reserva el espacio para que el buscador se mantenga al centro */
+}
+
+/* Controlamos el tamaño del nuevo logo */
+.img-logo {
+    position: absolute; /* MAGIA: Saca la imagen del cálculo de la barra azul */
+    top: 5px; /* Lo ubicamos pegadito al borde superior */
+    left: 40px; /* Respeta el padding izquierdo de tu barra */
+    max-height: 160px; /* ¡Ahora ponle el tamaño GIGANTE que quieras sin miedo! */
+    width: auto;
+    z-index: 100; /* Obliga al logo a estar por encima de todo el resto del sitio */
+    transition: transform 0.3s ease;
+}
+
+.img-logo:hover {
+    transform: scale(1.05); /* Recuperamos el efecto de saltito suave */
+}
+
+/* Efecto hover (se mantiene igual) */
+.img-logo:hover {
+    transform: scale(1.05);
+}
+
+/* 5. Estilos para la lista del menú */
+nav ul {
+    list-style: none; 
+    margin: 0;
+    padding: 0;
+    display: flex; 
+    gap: 30px; 
+    align-items: center; /* Esta es la clave para la alineación general */
+}
+
+/* 6. Estilos para los enlaces (los links) */
+nav a {
+    text-decoration: none; /* Quita la línea de subrayado típica de los links */
+    color: white; /* Pinta las letras de blanco */
+    font-weight: 700; /* Hace la letra más gordita (negrita) */
+    font-size: 18px;
+    transition: color 0.3s ease; /* Hace que el cambio de color al pasar el mouse sea suave */
+}
+
+/* 7. Efecto Hover (cuando el mouse pasa por encima del link) */
+nav a:hover {
+    color: var(--color-amarillo); /* Cambia la letra al color amarillo secundario del diagrama */
+}
+
+/* 8. Estilos para la Barra de Búsqueda */
+.buscador {
+    display: flex;
+    gap: 5px; /* Pequeña separación entre la caja de texto y el botón */
+}
+
+.buscador input {
+    padding: 10px 15px;
+    border: none; /* Quitamos el borde feo por defecto */
+    border-radius: 20px; /* Bordes muy redondeados (diseño lúdico) */
+    font-family: 'Quicksand', sans-serif;
+    width: 250px; /* Ancho de la barra */
+}
+
+.buscador button {
+    background-color: var(--color-amarillo); /* Usamos tu amarillo secundario */
+    color: var(--color-texto);
+    border: none;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-weight: bold;
+    font-family: 'Quicksand', sans-serif;
+    cursor: pointer; /* Hace que el mouse cambie a una "manito" al pasar por encima */
+    transition: transform 0.2s; /* Efecto suave de movimiento */
+}
+
+/* Efecto al pasar el mouse por el botón de buscar */
+.buscador button:hover {
+    transform: scale(1.05); /* El botón crece un 5% al pasar el mouse */
+}
+
+/* 9. Estilo exclusivo para el Botón del Carrito (Naranjo) */
+nav a.btn-carrito {
+    background-color: var(--color-naranjo);
+    color: white; /* Mantenemos el texto blanco */
+    padding: 8px 22px;
+    border-radius: 25px;
+    
+    /* MAGIA FLEXBOX: Centra el ícono y el texto perfectamente */
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Separación exacta entre el dibujo y la letra */
+}
+
+/* Efecto al pasar el mouse */
+nav a.btn-carrito:hover {
+    background-color: white;
+    color: var(--color-naranjo);
+}
+
+/* Efecto Hover especial para el carrito */
+.btn-carrito:hover {
+    background-color: white; /* Cambia a blanco */
+    color: var(--color-naranjo); /* Letra naranja */
+}
+
+/* 10. Estilos del Banner Principal */
+.banner {
+    background-color: var(--color-amarillo);
+    padding: 60px 20px;
+    text-align: center;
+    /* Redondeamos solo las esquinas de abajo para un diseño más lúdico */
+    border-bottom-left-radius: 40px;
+    border-bottom-right-radius: 40px;
+    margin-bottom: 40px;
+}
+
+.banner h2 {
+    font-size: 36px;
+    color: var(--color-texto);
+    margin: 0 0 10px 0;
+}
+
+/* 11. Estilos de la sección Lo más vendido */
+.mas-vendidos {
+    padding: 0 40px 40px 40px;
+    text-align: center;
+}
+
+.mas-vendidos h2 {
+    color: var(--color-azul);
+    font-size: 28px;
+    margin-bottom: 30px;
+}
+
+/* 12. MAGIA: La cuadrícula (Grid) para los productos */
+.cuadricula-productos {
+    display: grid;
+    /* Esto hace que las columnas se adapten solas al tamaño de la pantalla */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px; /* Separación entre cada producto */
+}
+
+/* 13. Diseño de la Tarjeta del Producto */
+.producto {
+    background-color: white;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Sombra suave */
+    transition: transform 0.3s;
+}
+
+/* Efecto al pasar el mouse por la tarjeta */
+.producto:hover {
+    transform: translateY(-10px); /* La tarjeta "flota" hacia arriba */
+}
+
+.imagen-placeholder {
+    background-color: var(--color-fondo);
+    height: 180px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 50px; /* Tamaño del emoji temporal */
+    margin-bottom: 15px;
+}
+
+.producto h3 {
+    margin: 0 0 10px 0;
+    font-size: 18px;
+}
+
+.precio {
+    font-size: 22px;
+    font-weight: bold;
+    color: var(--color-naranjo);
+    margin: 0 0 15px 0;
+}
+
+/* 14. Botón de Añadir al Carrito */
+.btn-agregar {
+    background-color: var(--color-azul);
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 20px;
+    cursor: pointer;
+    width: 100%; /* Hace que el botón ocupe todo el ancho de la tarjeta */
+    font-family: 'Quicksand', sans-serif;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.btn-agregar:hover {
+    background-color: var(--color-naranjo);
+}
+
+/* 15. Estilos del Pie de Página (Footer) */
+footer {
+    background-color: var(--color-azul); /* Usamos el azul principal */
+    color: white;
+    padding: 40px;
+    display: flex;
+    justify-content: space-around; /* Separa la info de contacto y el asistente */
+    align-items: center;
+    margin-top: 40px; /* Lo separa un poco de la cuadrícula de juguetes */
+}
+
+footer h3 {
+    color: var(--color-amarillo); /* Títulos en amarillo para que resalten */
+    margin-top: 0;
+}
+
+footer p {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 10px 0;
+}
+
+/* 16. Botón del Asistente Virtual */
+.btn-asistente {
+    background-color: white;
+    color: var(--color-azul);
+    border: none;
+    padding: 12px 20px;
+    border-radius: 25px;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: transform 0.3s, background-color 0.3s;
+}
+
+.btn-asistente:hover {
+    background-color: var(--color-amarillo);
+    color: var(--color-texto);
+    transform: scale(1.05);
+}

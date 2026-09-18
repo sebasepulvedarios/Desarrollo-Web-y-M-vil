@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Kids - Juguetes Didácticos</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+</head>
+<body>
+    <header>
+        <div id="logo">
+            <img src="Happy Kids - Logo.png" alt="Logo Happy Kids" class="img-logo">
+        </div>
+        <div class="buscador">
+            <input type="text" placeholder="Buscar Juguetes...">
+            <button>Buscar</button>
+        </div>
+
+        <nav>
+            <ul>
+                <li><a href="#catalogo">Catálogo</a></li>
+                <li><a href="#ayuda">Ayuda y Contacto</a></li>
+                <li>
+                    <a href="#carrito" class="btn-carrito">
+                        <span class="material-symbols-outlined">shopping_cart</span> Carrito
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <!-- Todo el contenido principal va dentro de <main> -->
+    <main>
+        <!-- Sección 1: Banner de Bienvenida -->
+        <section class="banner">
+            <div class="banner-contenido">
+                <h2>¡Aprender jugando es más divertido!</h2>
+                <p>Descubre nuestra colección de juguetes didácticos para todas las edades.</p>
+            </div>
+        </section>
+
+        <!-- Sección 2: Lo más vendido -->
+        <section class="mas-vendidos">
+            <h2>Lo más vendido</h2>
+            
+            <!-- Contenedor de la cuadrícula de productos -->
+            <div class="cuadricula-productos">
+                
+                <!-- Tarjeta de Producto 1 -->
+                <article class="producto">
+                    <div class="imagen-placeholder">🧸</div>
+                    <h3>Oso de Peluche Educativo</h3>
+                    <p class="precio">$12.990</p>
+                    <button class="btn-agregar">Añadir al Carrito</button>
+                </article>
+
+                <!-- Tarjeta de Producto 2 -->
+                <article class="producto">
+                    <div class="imagen-placeholder">🧩</div>
+                    <h3>Rompecabezas de Madera</h3>
+                    <p class="precio">$8.500</p>
+                    <button class="btn-agregar">Añadir al Carrito</button>
+                </article>
+
+                <!-- Tarjeta de Producto 3 -->
+                <article class="producto">
+                    <div class="imagen-placeholder">🚂</div>
+                    <h3>Tren Didáctico</h3>
+                    <p class="precio">$15.990</p>
+                    <button class="btn-agregar">Añadir al Carrito</button>
+                </article>
+
+            </div>
+        </section>
+    </main>
+    <footer>
+        <div class="contacto-info">
+            <h3>Ayuda y Contacto</h3>
+            <p><span class="material-symbols-outlined">call</span> Teléfono: +56 9 1234 5678</p>
+            <p><span class="material-symbols-outlined">mail</span> Correo: contacto@happykids.cl</p>
+        </div>
+        
+        <div class="asistente-virtual">
+            <h3>¿Necesitas ayuda rápida?</h3>
+            <button class="btn-asistente">
+                <span class="material-symbols-outlined">smart_toy</span> Habla con nuestro Asistente Virtual
+            </button>
+        </div>
+    </footer>
+</body>
+</html>
