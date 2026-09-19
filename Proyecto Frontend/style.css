@@ -596,3 +596,29 @@ footer p {
         gap: 30px;
     }
 }
+/* ========================================= */
+/* 20. CONTADOR DEL CARRITO (NÚMERO)         */
+/* ========================================= */
+
+nav a.btn-carrito {
+    position: relative; /* Necesario para que el círculo flote sobre el botón */
+}
+
+.contador-carrito {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: var(--color-amarillo);
+    color: var(--color-texto);
+    font-size: 13px;
+    font-weight: bold;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    border: 2px solid white; /* Borde blanco para separarlo del botón naranjo */
+    font-family: 'Quicksand', sans-serif;
+}

@@ -1,6 +1,18 @@
-// ----------------------------------------------------
-// 1. LÓGICA DEL BUSCADOR (Sugerencias y Navegación)
-// ----------------------------------------------------
+// ====================================================
+// BASE DE DATOS SIMULADA (Para todo el Frontend)
+// ====================================================
+const baseDatosJuguetes = {
+    "Oso de Peluche Educativo": { emoji: "🧸", precio: 12990, desc: "Suave oso de peluche con texturas interactivas diseñado para estimular el desarrollo sensorial desde los primeros meses." },
+    "Rompecabezas de Madera": { emoji: "🧩", precio: 8500, desc: "Rompecabezas de 20 piezas con formas de animales para fomentar el pensamiento espacial y la motricidad fina." },
+    "Tren Didáctico": { emoji: "🚂", precio: 15990, desc: "Tren de madera con vagones magnéticos desmontables. Ideal para aprender colores y formas geométricas." },
+    "Microscopio Infantil": { emoji: "🔬", precio: 24990, desc: "Microscopio de iniciación a las ciencias con 3 lentes de aumento. Incluye láminas de muestra preparadas." }
+};
+
+const nombresJuguetes = Object.keys(baseDatosJuguetes);
+
+// ====================================================
+// 1. LÓGICA DEL BUSCADOR
+// ====================================================
 const buscadorInput = document.querySelector('.buscador input');
 const buscadorDiv = document.querySelector('.buscador');
 
@@ -8,33 +20,20 @@ if (buscadorInput) {
     const sugerenciasBox = document.createElement('div');
     sugerenciasBox.classList.add('sugerencias-box');
     buscadorDiv.appendChild(sugerenciasBox);
-
-    // Lista corregida: Solo los productos que realmente existen en el HTML
-    const juguetesDisponibles = [
-        "Oso de Peluche Educativo", 
-        "Rompecabezas de Madera", 
-        "Tren Didáctico", 
-        "Microscopio Infantil"
-    ];
+    let focoActual = -1;
 
     buscadorInput.addEventListener('input', (e) => {
         const textoEscrito = e.target.value.toLowerCase();
         sugerenciasBox.innerHTML = ''; 
+        focoActual = -1;
 
         if (textoEscrito.length > 0) {
-            const coincidencias = juguetesDisponibles.filter(juguete => 
-                juguete.toLowerCase().includes(textoEscrito)
-            );
-
+            const coincidencias = nombresJuguetes.filter(juguete => juguete.toLowerCase().includes(textoEscrito));
             coincidencias.forEach(juguete => {
                 const opcion = document.createElement('p');
                 opcion.textContent = juguete;
-                
-                // Al hacer clic, te lleva a la página del producto
                 opcion.addEventListener('click', () => {
-                    // Guardamos el nombre del juguete elegido en la memoria del navegador
                     localStorage.setItem('productoSeleccionado', juguete);
-                    // Redirigimos a la página de detalle (que crearemos pronto)
                     window.location.href = 'producto.html'; 
                 });
                 sugerenciasBox.appendChild(opcion);
@@ -44,86 +43,238 @@ if (buscadorInput) {
             sugerenciasBox.style.display = 'none';
         }
     });
-}
 
-// ----------------------------------------------------
-// 2. LÓGICA DEL CARRITO (Matemáticas y Eliminar)
-// ----------------------------------------------------
-
-// Función para recalcular el precio total
-function actualizarTotalCarrito() {
-    const itemsCarrito = document.querySelectorAll('.item-carrito');
-    let subtotal = 0;
-
-    // Sumar el precio de cada artículo que quede en la pantalla
-    itemsCarrito.forEach(item => {
-        // Extraemos el texto del precio, le quitamos el símbolo $ y el punto, y lo convertimos a número
-        let precioTexto = item.querySelector('.precio-item').innerText.replace('$', '').replace('.', '');
-        let cantidad = parseInt(item.querySelector('input').value);
-        subtotal += parseInt(precioTexto) * cantidad;
+    buscadorInput.addEventListener('keydown', (e) => {
+        const opciones = sugerenciasBox.querySelectorAll('p');
+        if (opciones.length === 0) return;
+        if (e.key === 'ArrowDown') { focoActual++; actualizarFocoVisual(opciones); } 
+        else if (e.key === 'ArrowUp') { focoActual--; actualizarFocoVisual(opciones); } 
+        else if (e.key === 'Enter') {
+            e.preventDefault();
+            if (focoActual > -1 && opciones[focoActual]) opciones[focoActual].click(); 
+        }
     });
 
-    // Si el subtotal es 0 (carrito vacío), el envío también es 0
-    let costoEnvio = subtotal > 0 ? 3500 : 0;
-    let totalFina = subtotal + costoEnvio;
-
-    // Buscar los textos en la boleta de la derecha y actualizar los números
-    const valoresResumen = document.querySelectorAll('.fila-resumen span:nth-child(2)');
-    if (valoresResumen.length > 0) {
-        // Formatear los números para que se vean como moneda chilena ($X.XXX)
-        valoresResumen[0].innerText = '$' + subtotal.toLocaleString('es-CL');
-        valoresResumen[1].innerText = '$' + costoEnvio.toLocaleString('es-CL');
-        document.querySelector('.total span:nth-child(2)').innerText = '$' + totalFina.toLocaleString('es-CL');
+    function actualizarFocoVisual(opciones) {
+        opciones.forEach(op => { op.style.backgroundColor = ""; op.style.color = "var(--color-texto)"; });
+        if (focoActual >= opciones.length) focoActual = 0;
+        if (focoActual < 0) focoActual = opciones.length - 1;
+        opciones[focoActual].style.backgroundColor = "var(--color-fondo)";
+        opciones[focoActual].style.color = "var(--color-azul)";
     }
 }
 
-// Lógica para el botón de eliminar (basurero rojo)
-const botonesEliminar = document.querySelectorAll('.btn-eliminar');
-botonesEliminar.forEach(boton => {
-    boton.addEventListener('click', function() {
-        const articulo = this.closest('.item-carrito');
-        articulo.remove(); // Borra el juguete de la pantalla
-        actualizarTotalCarrito(); // ¡Llama a la calculadora inmediatamente!
+// ====================================================
+// 2. NAVEGAR DESDE LAS TARJETAS (Inicio y Catálogo)
+// ====================================================
+const tarjetasProducto = document.querySelectorAll('.producto');
+tarjetasProducto.forEach(tarjeta => {
+    const elementosClickeables = tarjeta.querySelectorAll('.imagen-placeholder, h3');
+    elementosClickeables.forEach(elemento => {
+        elemento.style.cursor = 'pointer';
+        elemento.addEventListener('click', () => {
+            const nombreProducto = tarjeta.querySelector('h3').innerText;
+            localStorage.setItem('productoSeleccionado', nombreProducto);
+            window.location.href = 'producto.html';
+        });
     });
 });
 
-// Lógica para los botones + y -
-const controlesCantidad = document.querySelectorAll('.controles-cantidad');
-controlesCantidad.forEach(control => {
-    const btnMenos = control.children[0];
-    const input = control.children[1];
-    const btnMas = control.children[2];
+// ====================================================
+// 3. CARGAR PÁGINA DE DETALLES (producto.html)
+// ====================================================
+const tituloPagina = document.querySelector('main h1');
+if (tituloPagina && tituloPagina.innerText === 'Detalle del Juguete') {
+    const jugueteGuardado = localStorage.getItem('productoSeleccionado');
+    if (jugueteGuardado && baseDatosJuguetes[jugueteGuardado]) {
+        const datos = baseDatosJuguetes[jugueteGuardado];
+        document.querySelector('main h1').innerText = jugueteGuardado;
+        document.querySelector('main p:nth-of-type(1)').innerText = "$" + datos.precio.toLocaleString('es-CL');
+        document.querySelector('main p:nth-of-type(2)').innerText = datos.desc;
+        document.querySelector('main div').innerText = datos.emoji;
+    }
+}
 
-    btnMas.addEventListener('click', () => {
-        input.value = parseInt(input.value) + 1;
-        actualizarTotalCarrito(); // Recalcula al sumar
-    });
+// ====================================================
+// 4. LÓGICA DEL CARRITO CON LOCALSTORAGE Y GLOBO
+// ====================================================
+function actualizarContadorMenu() {
+    let carrito = JSON.parse(localStorage.getItem('carritoHappyKids')) || [];
+    let totalItems = carrito.reduce((suma, item) => suma + item.cantidad, 0);
 
-    btnMenos.addEventListener('click', () => {
-        if (parseInt(input.value) > 1) {
-            input.value = parseInt(input.value) - 1;
-            actualizarTotalCarrito(); // Recalcula al restar
+    const botonesCarrito = document.querySelectorAll('.btn-carrito');
+    botonesCarrito.forEach(boton => {
+        let contador = boton.querySelector('.contador-carrito');
+        if (!contador) {
+            contador = document.createElement('span');
+            contador.classList.add('contador-carrito');
+            boton.appendChild(contador);
+        }
+        
+        if (totalItems > 0) {
+            contador.innerText = totalItems;
+            contador.style.display = 'flex';
+        } else {
+            contador.style.display = 'none'; // Se oculta si el carrito está vacío
         }
     });
+}
+
+function agregarAlCarrito(nombreProducto) {
+    let carrito = JSON.parse(localStorage.getItem('carritoHappyKids')) || [];
+    let itemExistente = carrito.find(item => item.nombre === nombreProducto);
+    if (itemExistente) { itemExistente.cantidad++; } 
+    else { carrito.push({ nombre: nombreProducto, cantidad: 1 }); }
+    localStorage.setItem('carritoHappyKids', JSON.stringify(carrito));
+    
+    actualizarContadorMenu(); // ¡Actualiza el número arriba de inmediato!
+}
+
+const botonesAgregar = document.querySelectorAll('.btn-agregar, .btn-pagar');
+botonesAgregar.forEach(boton => {
+    if (boton.innerText.includes("Añadir al Carrito")) {
+        boton.addEventListener('click', function(e) {
+            let nombreProducto = "";
+            if (document.querySelector('main h1') && document.querySelector('main h1').innerText !== 'Detalle del Juguete') {
+                nombreProducto = document.querySelector('main h1').innerText;
+            } else {
+                const tarjeta = this.closest('.producto');
+                nombreProducto = tarjeta.querySelector('h3').innerText;
+            }
+
+            if (baseDatosJuguetes[nombreProducto]) {
+                agregarAlCarrito(nombreProducto);
+                this.innerText = "¡Añadido!";
+                this.style.backgroundColor = "#4caf50";
+                setTimeout(() => {
+                    this.innerText = "Añadir al Carrito";
+                    this.style.backgroundColor = ""; 
+                }, 1500);
+            }
+        });
+    }
 });
 
-// ----------------------------------------------------
-// 3. AÑADIR PRODUCTOS DESDE EL CATÁLOGO
-// ----------------------------------------------------
-const botonesAgregar = document.querySelectorAll('.btn-agregar');
-botonesAgregar.forEach(boton => {
-    boton.addEventListener('click', function() {
-        const tarjeta = this.closest('.producto');
-        const nombreProducto = tarjeta.querySelector('h3').innerText;
-        
-        // Simulación visual de que se agregó al carrito
-        alert(`¡"${nombreProducto}" se ha añadido a tu carrito!`);
-        this.innerText = "¡Añadido!";
-        this.style.backgroundColor = "#4caf50"; // Cambia a verde
-        
-        setTimeout(() => {
-            this.innerText = "Añadir al Carrito";
-            this.style.backgroundColor = "var(--color-azul)"; // Vuelve a la normalidad
-        }, 2000);
+function renderizarCarrito() {
+    const contenedorCarrito = document.querySelector('.lista-carrito');
+    if (!contenedorCarrito) return; 
+
+    contenedorCarrito.innerHTML = '<h2>Tu Carrito</h2>'; 
+    let carrito = JSON.parse(localStorage.getItem('carritoHappyKids')) || [];
+    let subtotal = 0;
+
+    if (carrito.length === 0) {
+        contenedorCarrito.innerHTML += '<p style="padding: 20px; text-align: center;">Tu carrito está vacío. ¡Agrega algunos juguetes!</p>';
+        actualizarBoleta(0);
+        return;
+    }
+
+    carrito.forEach((item, index) => {
+        const datos = baseDatosJuguetes[item.nombre];
+        if (!datos) return;
+        subtotal += datos.precio * item.cantidad;
+
+        const article = document.createElement('article');
+        article.classList.add('item-carrito');
+        article.innerHTML = `
+            <div class="imagen-mini">${datos.emoji}</div>
+            <div class="detalles-item">
+                <h3>${item.nombre}</h3>
+                <p class="precio-item">$${datos.precio.toLocaleString('es-CL')}</p>
+            </div>
+            <div class="controles-cantidad">
+                <button class="btn-cantidad btn-menos" data-index="${index}">-</button>
+                <input type="number" value="${item.cantidad}" readonly>
+                <button class="btn-cantidad btn-mas" data-index="${index}">+</button>
+            </div>
+            <button class="btn-eliminar" data-index="${index}"><span class="material-symbols-outlined">delete</span></button>
+        `;
+        contenedorCarrito.appendChild(article);
     });
-});
+
+    actualizarBoleta(subtotal);
+    asignarEventosBotonesCarrito();
+}
+
+function actualizarBoleta(subtotal) {
+    const valoresResumen = document.querySelectorAll('.fila-resumen span:nth-child(2)');
+    if (valoresResumen.length > 0) {
+        let costoEnvio = subtotal > 0 ? 3500 : 0;
+        let totalFinal = subtotal + costoEnvio;
+        
+        valoresResumen[0].innerText = '$' + subtotal.toLocaleString('es-CL');
+        valoresResumen[1].innerText = '$' + costoEnvio.toLocaleString('es-CL');
+        document.querySelector('.total span:nth-child(2)').innerText = '$' + totalFinal.toLocaleString('es-CL');
+    }
+}
+
+function asignarEventosBotonesCarrito() {
+    let carrito = JSON.parse(localStorage.getItem('carritoHappyKids')) || [];
+
+    document.querySelectorAll('.btn-eliminar').forEach(boton => {
+        boton.addEventListener('click', (e) => {
+            const index = e.currentTarget.getAttribute('data-index');
+            carrito.splice(index, 1); 
+            localStorage.setItem('carritoHappyKids', JSON.stringify(carrito));
+            renderizarCarrito(); 
+            actualizarContadorMenu();
+        });
+    });
+
+    document.querySelectorAll('.btn-mas').forEach(boton => {
+        boton.addEventListener('click', (e) => {
+            const index = e.currentTarget.getAttribute('data-index');
+            carrito[index].cantidad++;
+            localStorage.setItem('carritoHappyKids', JSON.stringify(carrito));
+            renderizarCarrito();
+            actualizarContadorMenu();
+        });
+    });
+
+    document.querySelectorAll('.btn-menos').forEach(boton => {
+        boton.addEventListener('click', (e) => {
+            const index = e.currentTarget.getAttribute('data-index');
+            if (carrito[index].cantidad > 1) {
+                carrito[index].cantidad--;
+                localStorage.setItem('carritoHappyKids', JSON.stringify(carrito));
+                renderizarCarrito();
+                actualizarContadorMenu();
+            }
+        });
+    });
+}
+
+// ====================================================
+// 5. FILTRO DE PRECIO EN TIEMPO REAL (Catálogo)
+// ====================================================
+const inputPrecio = document.getElementById('filtro-precio');
+const textoPrecio = document.getElementById('valor-precio-texto');
+const tarjetasCatalogo = document.querySelectorAll('.contenedor-catalogo .producto');
+
+if (inputPrecio && textoPrecio && tarjetasCatalogo.length > 0) {
+    // Escucha cada vez que mueves la barra
+    inputPrecio.addEventListener('input', (e) => {
+        const valorMaximo = parseInt(e.target.value);
+        
+        // Actualiza el texto visual arriba de la barra
+        textoPrecio.innerText = '$' + valorMaximo.toLocaleString('es-CL');
+
+        // Recorre todos los juguetes del catálogo
+        tarjetasCatalogo.forEach(tarjeta => {
+            // Extrae el texto, quita el $ y los puntos para convertirlo en número matemático
+            const precioTexto = tarjeta.querySelector('.precio').innerText.replace('$', '').replace(/\./g, '');
+            const precioJuguete = parseInt(precioTexto);
+
+            // Si el juguete cuesta menos o igual, lo muestra. Si no, lo oculta.
+            if (precioJuguete <= valorMaximo) {
+                tarjeta.style.display = 'block'; 
+            } else {
+                tarjeta.style.display = 'none'; 
+            }
+        });
+    });
+}
+
+// INICIALIZADORES GLOBALES
+renderizarCarrito();
+actualizarContadorMenu();

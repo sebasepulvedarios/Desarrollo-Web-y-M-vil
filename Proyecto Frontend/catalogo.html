@@ -53,7 +53,12 @@
             
             <div class="grupo-filtro">
                 <h4>Precio</h4>
-                <input type="range" min="0" max="50000" style="width: 100%;">
+                <!-- Aquí se mostrará el número que se actualiza en tiempo real -->
+                <p style="margin: 0 0 10px 0; font-size: 14px; color: var(--color-azul); font-weight: bold;">
+                    Máximo: <span id="valor-precio-texto">$50.000</span>
+                </p>
+                <!-- Agregamos el id="filtro-precio" y el value inicial -->
+                <input type="range" id="filtro-precio" min="0" max="50000" value="50000" style="width: 100%;">
             </div>
         </aside>
 
