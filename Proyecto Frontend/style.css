@@ -270,3 +270,325 @@ footer p {
     color: var(--color-texto);
     transform: scale(1.05);
 }
+
+/* ========================================= */
+/* 17. ESTILOS DE LA PÁGINA DE CATÁLOGO      */
+/* ========================================= */
+
+.contenedor-catalogo {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    gap: 40px;
+    padding: 40px;
+    margin-top: 50px; /* NUEVO: Empuja todo hacia abajo para que el logo flote libremente */
+    align-items: start; 
+}
+
+/* Panel Lateral de Filtros */
+.filtros {
+    background-color: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+.filtros h3 {
+    color: var(--color-azul);
+    margin-top: 0;
+    border-bottom: 2px solid var(--color-amarillo);
+    padding-bottom: 10px;
+}
+
+.grupo-filtro {
+    margin-bottom: 20px;
+}
+
+.grupo-filtro h4 {
+    color: var(--color-texto);
+    margin-bottom: 10px;
+}
+
+/* Espaciado para las opciones con casillas de verificación (checkbox) */
+.grupo-filtro label {
+    display: block; /* Pone cada opción en una línea nueva */
+    margin-bottom: 8px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+/* ========================================= */
+/* 18. ESTILOS DEL CARRITO DE COMPRAS        */
+/* ========================================= */
+
+.contenedor-carrito {
+    display: grid;
+    /* La lista de productos toma más espacio (2fr) que el resumen (1fr) */
+    grid-template-columns: 2fr 1fr;
+    gap: 40px;
+    padding: 40px;
+    margin-top: 50px;
+    align-items: start;
+}
+
+/* --- Lista de Productos --- */
+.lista-carrito {
+    background-color: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+.lista-carrito h2 {
+    color: var(--color-azul);
+    border-bottom: 2px solid var(--color-amarillo);
+    padding-bottom: 15px;
+    margin-top: 0;
+}
+
+.item-carrito {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.imagen-mini {
+    background-color: var(--color-fondo);
+    width: 80px;
+    height: 80px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 35px;
+}
+
+.detalles-item {
+    flex-grow: 1; /* Esto hace que el título ocupe todo el espacio sobrante */
+}
+
+.detalles-item h3 {
+    margin: 0 0 5px 0;
+    font-size: 18px;
+}
+
+.precio-item {
+    color: var(--color-naranjo);
+    font-weight: bold;
+    font-size: 18px;
+    margin: 0;
+}
+
+/* --- Controles de Cantidad y Eliminar --- */
+.controles-cantidad {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.btn-cantidad {
+    background-color: #f9f9f9;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.controles-cantidad input {
+    width: 40px;
+    text-align: center;
+    border: none;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: bold;
+}
+
+.btn-eliminar {
+    background: none;
+    border: none;
+    color: #ff4d4d;
+    cursor: pointer;
+    padding: 10px;
+    transition: transform 0.2s;
+}
+
+.btn-eliminar:hover {
+    transform: scale(1.2);
+}
+
+/* --- Resumen de Compra --- */
+.resumen-compra {
+    background-color: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    /* TRUCO: position sticky hace que el resumen te siga si haces scroll hacia abajo */
+    position: sticky;
+    top: 20px;
+}
+
+.resumen-compra h3 {
+    color: var(--color-azul);
+    margin-top: 0;
+    margin-bottom: 25px;
+}
+
+.fila-resumen {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+.linea-divisora {
+    border: 0;
+    height: 1px;
+    background-color: #ccc;
+    margin: 20px 0;
+}
+
+.total {
+    font-size: 22px;
+    font-weight: bold;
+    color: var(--color-naranjo);
+}
+
+.btn-pagar {
+    background-color: var(--color-naranjo);
+    color: var(--color-texto);
+    border: none;
+    width: 100%;
+    padding: 15px;
+    border-radius: 25px;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.btn-pagar:hover {
+    background-color: var(--color-texto);
+    color: white;
+}
+
+.nota-seguridad {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    font-size: 12px;
+    color: #666;
+    margin-top: 15px;
+}
+
+/* Caja desplegable de sugerencias del buscador */
+.buscador {
+    position: relative; /* Clave para que las sugerencias floten debajo */
+}
+
+.sugerencias-box {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: calc(100% - 90px); /* Ancho del input restando el botón amarillo */
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    display: none; /* Oculto por defecto */
+    z-index: 1000;
+    overflow: hidden;
+    margin-top: 5px;
+    text-align: left;
+}
+
+.sugerencias-box p {
+    padding: 10px 15px;
+    margin: 0;
+    color: var(--color-texto);
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+}
+
+.sugerencias-box p:hover {
+    background-color: var(--color-fondo);
+    color: var(--color-azul);
+}
+
+/* ========================================= */
+/* 19. DISEÑO RESPONSIVO (MÓVILES Y TABLETS) */
+/* ========================================= */
+
+@media (max-width: 768px) {
+    
+    /* --- 1. Arreglar la Barra Superior y el Logo --- */
+    header {
+        flex-direction: column; /* Apila todo verticalmente */
+        padding: 20px 15px;
+        height: auto; /* Permite que la barra azul crezca hacia abajo */
+    }
+
+    #logo {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin-bottom: 15px;
+    }
+
+    .img-logo {
+        position: relative !important; /* Le quita el modo "flotante" */
+        top: 0 !important;
+        left: 0 !important;
+        max-height: 80px !important;
+        transform: scale(1) !important; /* Le quita el efecto de lupa */
+        margin: 0;
+    }
+
+    .buscador {
+        width: 100%;
+        margin-bottom: 15px;
+    }
+
+    /* --- 2. Arreglar el Menú (Evitar que desaparezca) --- */
+    nav, nav ul {
+        width: 100%;
+    }
+
+    nav ul {
+        flex-wrap: wrap; /* Si los botones no caben, bajan de línea */
+        justify-content: center;
+        gap: 15px;
+    }
+
+    /* --- 3. Arreglar el Carrito y Catálogo (1 Sola Columna) --- */
+    .contenedor-catalogo,
+    .contenedor-carrito {
+        grid-template-columns: 1fr !important; /* Obliga a usar SOLO UNA columna */
+        padding: 15px;
+        gap: 30px;
+    }
+
+    .item-carrito {
+        flex-direction: column; /* El juguete, precio y botones se apilan */
+        text-align: center;
+        gap: 15px;
+    }
+
+    .resumen-compra {
+        position: static; /* Quita el efecto pegajoso en celular */
+        margin-top: 10px;
+    }
+
+    /* --- 4. Arreglar el Pie de Página (Footer) --- */
+    footer {
+        flex-direction: column;
+        text-align: center;
+        padding: 30px 20px;
+        width: 100%;
+        box-sizing: border-box; /* Evita que el fondo azul se corte a la derecha */
+        gap: 30px;
+    }
+}
