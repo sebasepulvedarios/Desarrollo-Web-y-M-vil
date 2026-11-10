@@ -1,0 +1,57 @@
+
+services:
+  clients-service:
+    build: .
+    container_name: happy-kids-clients
+    ports:
+      - "8001:8001"
+    command: uvicorn clients_service:app --host 0.0.0.0 --port 8001
+    networks:
+      - happy-kids-net
+
+  inventory-service:
+    build: .
+    container_name: happy-kids-inventory
+    ports:
+      - "9001:9001"
+    command: uvicorn inventory_service:app --host 0.0.0.0 --port 9001
+    networks:
+      - happy-kids-net
+
+  orders-service:
+    build: .
+    container_name: happy-kids-orders
+    environment:
+      - INVENTORY_URL=http://inventory-service:9001/internal/stock
+      - INVENTORY_TOKEN=super-secreto-m2m-123
+    ports:
+      - "8002:8002"
+    command: uvicorn orders_service:app --host 0.0.0.0 --port 8002
+    networks:
+      - happy-kids-net
+
+  payments-service:
+    build: .
+    container_name: happy-kids-payments
+    ports:
+      - "8003:8003"
+    command: uvicorn payments_service:app --host 0.0.0.0 --port 8003
+    networks:
+      - happy-kids-net
+  
+  graphql-gateway:
+    build: .
+    container_name: happy-kids-gateway
+    environment:
+      - ORDERS_URL=http://orders-service:8002/api/v1/orders
+      - INVENTORY_URL=http://inventory-service:9001/internal/stock
+      - INVENTORY_TOKEN=super-secreto-m2m-123
+    ports:
+      - "8000:8000"
+    command: uvicorn graphql_gateway:app --host 0.0.0.0 --port 8000
+    networks:
+      - happy-kids-net
+
+networks:
+  happy-kids-net:
+    driver: bridge
